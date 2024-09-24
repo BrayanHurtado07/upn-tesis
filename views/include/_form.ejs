@@ -1,0 +1,111 @@
+<!-- form handling -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Formulario mejorado -->
+<form action="/api/users" method="POST" id="add_user" class="form-layout">
+    <div class="new_user">
+        <!-- Nombre -->
+        <div class="form-group">
+            <label for="name" class="text-light">Nombre</label>
+            <input type="text" name="name" class="form-control full-width" placeholder="Mark Stoenis">
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+            <label for="email" class="text-light">Email</label>
+            <input type="text" name="email" class="form-control full-width" placeholder="example@gmail.com">
+        </div>
+
+        <!-- Categoría principal -->
+        <div class="form-group">
+            <label for="mainCategory" class="text-light">Tipo</label>
+            <select id="mainCategory" name="mainCategory" class="form-control full-width">
+                <option value="">Seleccione una Categoría</option>
+                <option value="Materiales Peligrosos">Materiales Peligrosos</option>
+                <option value="Accidente Vehicular">Accidente Vehicular</option>
+                <option value="Emergencia Médica">Emergencia Médica</option>
+                <option value="Incendio">Incendio</option>
+            </select>
+        </div>
+
+        <!-- Subcategoría -->
+        <div class="form-group">
+            <label for="subCategory" class="text-light">Subcategoría</label>
+            <select id="subCategory" name="subCategory" class="form-control full-width">
+                <option value="">Seleccione una Subcategoría</option>
+            </select>
+        </div>
+
+        <!-- Campo oculto para almacenar el valor concatenado -->
+        <input type="hidden" id="incident" name="incident" value="">
+
+        <!-- Estado -->
+        <div class="form-group">
+            <label for="status" class="text-light">Estado</label>
+            <div class="radio inline">
+                <input type="radio" id="radio-4" name="status" value="Atendiendo">
+                <label for="radio-4" class="radio-label">Atendiendo</label>
+            </div>
+            <div class="radio inline">
+                <input type="radio" id="radio-5" name="status" value="Cerrado">
+                <label for="radio-5" class="radio-label">Cerrado</label>
+            </div>
+        </div>
+
+        <!-- Botón de envío -->
+        <div class="form-group">
+            <button type="submit" class="btn text-dark update full-width">Guardar</button>
+        </div>
+    </div>
+</form>
+
+<script>
+$(document).ready(function() {
+    var subcategories = {
+        "Materiales Peligrosos": ["Fuga de Gas", "GLP", "Otros Gases Inflamables"],
+        "Accidente Vehicular": ["Particular", "Público"],
+        "Emergencia Médica": ["Traumáticas", "Tipo Médico"],
+        "Incendio": ["Forestal", "Vehículo"]
+    };
+
+    // Actualizar el select de subcategorías dinámicamente
+    $('#mainCategory').on('change', function() {
+        var category = $(this).val();
+        var options = subcategories[category];
+        var $subCategory = $('#subCategory').empty().prop('disabled', false);
+
+        if (options) {
+            options.forEach(function(option) {
+                $subCategory.append($('<option>', { value: option, text: option }));
+            });
+        } else {
+            $subCategory.prop('disabled', true);
+        }
+    });
+
+    // Concatenar los valores al enviar el formulario
+    $('#add_user').on('submit', function(event) {
+        event.preventDefault(); // Detener el envío del formulario temporalmente
+
+        var mainCategory = $('#mainCategory').val();
+        var subCategory = $('#subCategory').val(); // Puede ser una o varias selecciones
+        var incident = '';
+
+        if (mainCategory && subCategory) {
+            if (Array.isArray(subCategory)) {
+                // Si hay varias subcategorías seleccionadas
+                incident = mainCategory + '/' + subCategory.join(', ');
+            } else {
+                // Si solo hay una subcategoría seleccionada
+                incident = mainCategory + '/' + subCategory;
+            }
+        }
+
+        // Asignar el valor concatenado al campo oculto
+        $('#incident').val(incident);
+
+        // Ahora se puede enviar el formulario
+        this.submit();
+    });
+});
+</script>
