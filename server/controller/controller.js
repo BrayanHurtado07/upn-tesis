@@ -1,33 +1,20 @@
-// Importar dayjs
-const dayjs = require('dayjs');
-const utc = require('dayjs/plugin/utc');
-const timezone = require('dayjs/plugin/timezone');
-
-// Extender dayjs con los plugins
-dayjs.extend(utc);
-dayjs.extend(timezone);
-
 var Userdb = require('../model/model');
 
 // create and save new user
 exports.create = (req, res) => {
-    // validate request
     if (!req.body) {
         res.status(400).send({ message: "Content can not be empty!" });
         return;
     }
 
-    // new user
     const user = new Userdb({
         name: req.body.name,
         email: req.body.email,
         gender: req.body.gender,
         status: req.body.status,
         incident: req.body.incident
-        // 'createdAt' se agrega automáticamente
     });
 
-    // save user in the database
     user
         .save(user)
         .then(data => {
@@ -40,6 +27,14 @@ exports.create = (req, res) => {
         });
 };
 
+// Ajustar manualmente la diferencia horaria con Lima
+function adjustToLimaTime(utcDate) {
+    const limaOffset = -5; // UTC-5
+    const localDate = new Date(utcDate);
+    localDate.setHours(localDate.getHours() + limaOffset);
+    return localDate;
+}
+
 // retrieve and return all users / retrieve and return a single user
 exports.find = (req, res) => {
     if (req.query.id) {
@@ -50,9 +45,18 @@ exports.find = (req, res) => {
                 if (!data) {
                     res.status(404).send({ message: "Not found user with id " + id });
                 } else {
-                    data.formattedDate = dayjs(data.createdAt)
-                                        .tz('America/Lima') // Convertir a la zona horaria de Lima
-                                        .format('DD/MM/YYYY hh:mm:ss A');
+                    // Convertir UTC a hora de Lima
+                    const limaTime = adjustToLimaTime(data.createdAt);
+                    const formattedDate = limaTime.toLocaleString('es-PE', {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit',
+                        hour12: true
+                    });
+                    data.formattedDate = formattedDate;
                     res.send(data);
                 }
             })
@@ -62,11 +66,18 @@ exports.find = (req, res) => {
     } else {
         Userdb.find()
             .then(users => {
-                // Aquí formateamos la fecha antes de enviar
                 users = users.map(user => {
-                    user.formattedDate = dayjs(user.createdAt)
-                                        .tz('America/Lima') // Establecer la zona horaria a Lima
-                                        .format('DD/MM/YYYY hh:mm:ss A'); // Formato de fecha
+                    const limaTime = adjustToLimaTime(user.createdAt);
+                    const formattedDate = limaTime.toLocaleString('es-PE', {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit',
+                        hour12: true
+                    });
+                    user.formattedDate = formattedDate;
                     return user;
                 });
                 res.send(users);
@@ -76,6 +87,8 @@ exports.find = (req, res) => {
             });
     }
 };
+
+
 
 // Update a new identified user by user id
 exports.update = (req, res) => {

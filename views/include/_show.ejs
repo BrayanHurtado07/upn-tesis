@@ -2,12 +2,12 @@
     <tr>
         <td><%= i + 1 %></td>
         <td><%= users[i].name %></td>
+        <td><%= users[i].createdAt %></td> 
         <td><%= users[i].email %></td>
         <td><%= users[i].incident %></td>
         <td class="<%= users[i].status === 'Atendiendo' ? 'atendiendo' : (users[i].status === 'Cerrado' ? 'cerrado' : '') %>">
             <%= users[i].status %>
         </td>
-        <td><%= users[i].createdAt %></td> Mostrar la fecha formateada desde el back-end
         <td>
             <a href="/update-user?id=<%= users[i]._id %>" class="btn border-shadow update">
                 <span class="text-gradient"><i class="fas fa-pencil-alt"></i></span>

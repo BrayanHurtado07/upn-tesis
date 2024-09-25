@@ -1,39 +1,134 @@
 <!-- include header -->
 <%- include('include/_header') %>
-<!-- /include header -->
+    <!-- /include header -->
 
-<!-- Main Site -->
-<main id="site-main">
-    <div class="container">
-        <div class="box-nav d-flex justify-between">
-            <a href="/add-user" class="border-shadow">
-                <span class="text-gradient">Agregar Accidente <i class="fas fa-user"></i></span>
-            </a>
+    <!-- Main Site -->
+    <main id="site-main">
+        <div class="container">
+            <div class="box-nav d-flex justify-between">
+                <a href="/add-user" class="border-shadow-buttom">
+                    <span class="text-gradient-buttom">Agregar Accidente <i class="fas fa-user"></i></span>
+                </a>
+            </div>
+
+            <!-- Barra de búsqueda -->
+            <div class="box-nav d-flex justify-between">
+                <a>
+                    <span class="text-gradient">Buscador <i class="fas fa-search"></i></span>
+                </a>
+            </div>
+            <input type="text" id="searchInput" placeholder="Buscar incidentes..." class="form-control mb-3">
+
+            <!-- Dropdown list para seleccionar tipo de filtro -->
+            <!-- Dropdown list para seleccionar tipo de filtro -->
+            <div class="form-group">
+                <div class="box-nav d-flex justify-between">
+                    <a>
+                        <span class="text-gradient">Filtrar por <i class="fas fa-filter"></i></span>
+                    </a>
+                </div>
+                <select id="filterType" class="form-control mb-3" onchange="applyFilter()">
+                    <option value="">Selecciona del filtro</option>
+                    <option value="ascendente">Fecha Ascendente</option>
+                    <option value="descendente">Fecha Descendente</option>
+                    <option value="Materiales Peligrosos">Materiales Peligrosos</option>
+                    <option value="Accidente Vehicular">Accidente Vehicular</option>
+                    <option value="Emergencia Médica">Emergencia Médica</option>
+                    <option value="Incendio">Incendio</option>
+                    <option value="Atendiendo">Estado: Atendiendo</option>
+                    <option value="Cerrado">Estado: Cerrado</option>
+                </select>
+            </div>
+
+
+            <!-- form handling -->
+            <form action="/" method="POST">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Fecha y Hora</th>
+                            <th>Email</th>
+                            <th>Tipo</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="incidentTable">
+                        <%- include('include/_show') %>
+                    </tbody>
+                </table>
+            </form>
         </div>
+    </main>
+    <!-- /Main Site -->
 
-        <!-- form handling -->
-        <form action="/" method="POST">
-            <table class="table">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Email</th>
-                        <th>Tipo</th>
-                        <th>Estado</th>
-                        <th>Fecha y Hora</th> <!-- Nueva columna -->
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <%- include('include/_show') %>
-                </tbody>
-            </table>
-        </form>
-    </div>
-</main>
-<!-- /Main Site -->
+    <!-- include footer -->
+    <%- include('include/_footer') %>
 
-<!-- include footer -->
-<%- include('include/_footer') %>
-<!-- /include footer -->
+        <!-- JavaScript para el filtro de búsqueda y filtro por tipo/estado/fecha -->
+        <script>
+            // Filtrar la tabla en tiempo real con la barra de búsqueda
+            document.getElementById('searchInput').addEventListener('keyup', function () {
+                var input = document.getElementById('searchInput').value.toLowerCase();
+                var table = document.getElementById('incidentTable');
+                var rows = table.getElementsByTagName('tr');
+
+                for (var i = 0; i < rows.length; i++) {
+                    var cells = rows[i].getElementsByTagName('td');
+                    var match = false;
+
+                    for (var j = 0; j < cells.length; j++) {
+                        var cellValue = cells[j].textContent || cells[j].innerText;
+                        if (cellValue.toLowerCase().indexOf(input) > -1) {
+                            match = true;
+                            break;
+                        }
+                    }
+
+                    if (match) {
+                        rows[i].style.display = '';
+                    } else {
+                        rows[i].style.display = 'none';
+                    }
+                }
+            });
+
+            // Función para aplicar el filtro por tipo o estado
+            // Función para aplicar el filtro por tipo, estado o fecha (ascendente/descendente)
+            function applyFilter() {
+                var filter = document.getElementById('filterType').value.toLowerCase();
+                var table = document.getElementById('incidentTable');
+                var rows = Array.from(table.getElementsByTagName('tr')); // Convertir NodeList a Array
+                var now = new Date();
+
+                if (filter === 'ascendente' || filter === 'descendente') {
+                    // Ordenar por fecha ascendente o descendente
+                    rows.sort(function (a, b) {
+                        var dateA = new Date(a.cells[2].textContent || a.cells[2].innerText);
+                        var dateB = new Date(b.cells[2].textContent || b.cells[2].innerText);
+                        return filter === 'ascendente' ? dateA - dateB : dateB - dateA;
+                    });
+                    // Reordenar la tabla con las filas ordenadas
+                    rows.forEach(function (row) {
+                        table.appendChild(row);
+                    });
+                } else {
+                    // Filtrar por tipo de incidente o estado
+                    rows.forEach(function (row) {
+                        var cells = row.getElementsByTagName('td');
+                        var incidentType = cells[4].textContent || cells[4].innerText;
+                        var status = cells[5].textContent || cells[5].innerText;
+                        var showRow = false;
+
+                        if (incidentType.toLowerCase().includes(filter) || status.toLowerCase().includes(filter)) {
+                            showRow = true;
+                        }
+
+                        row.style.display = showRow || filter === '' ? '' : 'none';
+                    });
+                }
+            }
+
+        </script>

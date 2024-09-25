@@ -41,9 +41,22 @@ a {
     text-align: center;
 }
 
-.border-shadow{
-    border: 1px solid var(--border-btn);
-    box-shadow: 1px 3px 10px #e9ecef;
+.border-shadow-buttom {
+    background-color: #28a745; /* Color verde */
+    color: white; /* Texto blanco */
+    padding: 40px 50px; /* Espaciado interno */
+    border-radius: 5px; /* Bordes redondeados */
+    text-decoration: none; /* Sin subrayado */
+    font-weight: bold; /* Texto en negrita */
+    font-size: 16px; /* Tamaño de la fuente */
+    box-shadow: 0 10px 10px rgba(0, 0.3, 0.3, 0.3); /* Sombra ligera */
+    transition: all 0.3s ease-in-out; /* Transición suave en hover */
+}
+
+.border-shadow:hover {
+    /* background-color: #218838; Verde más oscuro en hover */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Aumenta la sombra en hover */
+    transform: translateY(-2px); /* Efecto de elevar el botón */
 }
 
 .text-dark{
@@ -59,10 +72,28 @@ a {
 }
 
 .text-gradient{
-    background: linear-gradient(to right, #8e2de2, #4a00e0);
+    background: linear-gradient(to right, #031a9b, #2997f1);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
+    
+    font-size: 25px; /* Tamaño de la fuente */
+}
+
+.text-gradient-buttom{
+    background: linear-gradient(to right, #f2eff5, #eeebf3);
+    -webkit-background-clip: text;
+    background-clip: text;
+    /* -webkit-text-fill-color: transparent; */
+    /* background-color: #28a745; Color verde */
+    color: white; /* Texto blanco */
+    padding: 0px 20px; /* Espaciado interno */
+    border-radius: 5px; /* Bordes redondeados */
+    text-decoration: none; /* Sin subrayado */
+    font-weight: bold; /* Texto en negrita */
+    font-size: 30px; /* Tamaño de la fuente */
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0); /* Sombra ligera */
+    transition: all 0.3s ease-in-out; /* Transición suave en hover */
 }
 
 #header nav{
@@ -78,7 +109,7 @@ a {
 
 #site-main .container .box-nav > a{
     font-size: 1em;
-    padding: .5em 1em;
+    padding: 1em 0em;
 }
 
 #site-main .container form{
@@ -242,11 +273,15 @@ table{
     justify-content: center; /* Centrado horizontal */
     align-items: center; /* Centrado vertical */
 }
+.atendiendo:before {
+    content: "\039F"; /* Código de carácter para el ícono de check */
+    margin-right: 5px; /* Espacio entre el ícono y el texto */
+}
 
 /* Estilo para el estado Cerrado */
 .cerrado {
     color: white; /* Texto blanco */
-    background-color: gray; /* Fondo gris */
+    background-color: green; /* Fondo gris */
     padding: 5px 10px; /* Espaciado */
     border-radius: 20px; /* Bordes redondeados */
     display: flex; /* Usando flexbox */
