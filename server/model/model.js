@@ -13,7 +13,15 @@ var schema = new mongoose.Schema({
     gender: String,
     status: String,
     incident: String,
-    createdAt: { // Campo de fecha y hora
+    latitude: {
+        type: Number, // Nuevo campo para latitud
+        required: true
+    },
+    longitude: {
+        type: Number, // Nuevo campo para longitud
+        required: true
+    },
+    createdAt: {
         type: Date,
         default: Date.now
     }

@@ -2,18 +2,55 @@
     <tr>
         <td><%= i + 1 %></td>
         <td><%= users[i].name %></td>
-        <td><%= users[i].createdAt %></td> 
+        <td><%= new Date(users[i].createdAt).toLocaleString('es-PE', { timeZone: 'America/Lima' }) %></td>
         <td><%= users[i].email %></td>
         <td><%= users[i].incident %></td>
         <td class="<%= users[i].status === 'Atendiendo' ? 'atendiendo' : (users[i].status === 'Cerrado' ? 'cerrado' : '') %>">
             <%= users[i].status %>
         </td>
+        <!-- Icono para abrir ubicación en Google Maps -->
+        <td>
+            <a href="https://maps.google.com/?q=<%= users[i].latitude %>,<%= users[i].longitude %>" target="_blank" title="Ver en Mapa">
+                <i class="text-gradient-map fas fa-map-marked-alt"></i>
+            </a>
+        </td>
+        <td>
+            <% 
+            // Determinar el número de WhatsApp según el tipo de incidente
+            var whatsappNumber;
+            if (users[i].incident.includes('Materiales Peligrosos')) {
+                whatsappNumber = "+51965261193";
+            } else if (users[i].incident.includes('Accidente Vehicular')) {
+                whatsappNumber = "+51992061375";
+            } else if (users[i].incident.includes('Incendio')) {
+                whatsappNumber = "+51964136636";
+            } else {
+                whatsappNumber = ""; // O un número predeterminado si lo deseas
+            }
+
+            // Crear el mensaje para enviar por WhatsApp
+            var whatsappMessage = `Incidente: ${users[i].incident}%0ANombre: ${users[i].name}%0ADirección: ${users[i].email}%0AEstado: ${users[i].status}%0AUbicación: https://maps.google.com/?q=${users[i].latitude},${users[i].longitude}%0AFecha: ${new Date(users[i].createdAt).toLocaleString('es-PE', { timeZone: 'America/Lima' })}`;
+            %>
+            <a href="https://api.whatsapp.com/send?text=<%= whatsappMessage %>&phone=<%= whatsappNumber %>" target="_blank" class="btn border-shadow whatsapp" title="Enviar por WhatsApp">
+                <i class="text-gradient-wsp fab fa-whatsapp"></i>
+            </a>
+        </td>
+        <!-- Botón para enviar información por WhatsApp con validación según tipo de incidente -->
+        <td>
+            <% 
+            // Crear el mensaje para enviar por WhatsApp
+            var whatsappMessage = `Incidente: ${users[i].incident}%0ANombre: ${users[i].name}%0AEmail: ${users[i].email}%0AEstado: ${users[i].status}%0AUbicación: https://maps.google.com/?q=${users[i].latitude},${users[i].longitude}%0AFecha: ${new Date(users[i].createdAt).toLocaleString('es-PE', { timeZone: 'America/Lima' })}`;
+            %>
+            <a href="https://api.whatsapp.com/send?text=<%= whatsappMessage %>" target="_blank" class="btn border-shadow whatsapp" title="Enviar por WhatsApp">
+                <i class="text-gradient-wsp fab fa-whatsapp"></i>
+            </a>
+        </td>
         <td>
             <a href="/update-user?id=<%= users[i]._id %>" class="btn border-shadow update">
-                <span class="text-gradient"><i class="fas fa-pencil-alt"></i></span>
+                <span class="text-gradient-edit"><i class="fas fa-pencil-alt"></i></span>
             </a>
             <a class="btn border-shadow delete" data-id=<%= users[i]._id %> >
-                <span class="text-gradient"><i class="fas fa-times"></i></span>
+                <span class="text-gradient-delete"><i class="fas fa-times"></i></span>
             </a>
         </td>
     </tr>

@@ -4,68 +4,110 @@
 
     <!-- Main Site -->
     <main id="site-main">
-        <div class="container">
-            <div class="box-nav d-flex justify-between">
-                <a href="/add-user" class="border-shadow-buttom">
-                    <span class="text-gradient-buttom">Agregar Accidente <i class="fas fa-user"></i></span>
-                </a>
+        <div class="sidebar">
+            <!-- Profile Info and Navigation -->
+            <div class="profile-info">
+                <img src="/path/to/image" alt="Profile Image" class="profile-image">
+                <h4>Karthi Madesh</h4>
+                <p class="text-type">Admin</p>
             </div>
+            <ul class="menu">
+                <li><a href="#" class="active">Home</a></li>
+                <li><a href="#">Course</a></li>
+                <li><a href="#"">Students</a></li>
+                <li><a href="#">Payment</a></li>
+                <li><a href="#">Report</a></li>
+                <li><a href="#">Settings</a></li>
+                <li><a href="#">Logout</a></li>
+            </ul>
+        </div>
+        <div class="content-area">
 
+            <!-- Header -->
+            <header id="header">
+                <nav>
+                    <div class="container">
+                        <div class="text-center">
+                            <a href="/" class="nav-brand text-dark">EMERGENCIAS LIMA</a>
+                        </div>
+                        <!-- Agregar la imagen -->
+                        <!-- <div class="text-center">
+                <img src="assets/png/bomberos.png" alt="Imagen de bomberos" style="width: 100px; height: auto;">
+            </div> -->
+                    </div>
+                </nav>
+            </header>
+            <!-- /Header -->
+
+            <!-- Actions and Search -->
             <!-- Barra de búsqueda -->
-            <div class="box-nav d-flex justify-between">
-                <a>
-                    <span class="text-gradient">Buscador <i class="fas fa-search"></i></span>
+
+            <div class="box-nav d-flex justify-between button-container2">
+
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Ingrese criterio de búsqueda" class="search-input">
+                    <!-- <span class="search-icon">
+                        <i class="fas fa-search"></i>
+                    </span> -->
+                </div>
+            </div>
+            <br>
+            <div class="box-nav d-flex justify-between button-container2">
+                <a href="/add-user" class="border-shadow-buttom">
+                    <span class="text-gradient-buttom">AGREGAR INCIDENTE <i class="fas fa-user"></i></span>
                 </a>
             </div>
-            <input type="text" id="searchInput" placeholder="Buscar incidentes..." class="form-control mb-3">
-
-            <!-- Dropdown list para seleccionar tipo de filtro -->
-            <!-- Dropdown list para seleccionar tipo de filtro -->
-            <div class="form-group">
+            <!-- Filter Dropdown -->
+            <div class="form-group filter-box">
                 <div class="box-nav d-flex justify-between">
                     <a>
-                        <span class="text-gradient">Filtrar por <i class="fas fa-filter"></i></span>
+                        <span class="text-gradient">FILTRAR POR <i class="fas fa-filter"></i></span>
                     </a>
                 </div>
-                <select id="filterType" class="form-control mb-3" onchange="applyFilter()">
-                    <option value="">Selecciona del filtro</option>
-                    <option value="ascendente">Fecha Ascendente</option>
-                    <option value="descendente">Fecha Descendente</option>
-                    <option value="Materiales Peligrosos">Materiales Peligrosos</option>
-                    <option value="Accidente Vehicular">Accidente Vehicular</option>
-                    <option value="Emergencia Médica">Emergencia Médica</option>
-                    <option value="Incendio">Incendio</option>
-                    <option value="Atendiendo">Estado: Atendiendo</option>
-                    <option value="Cerrado">Estado: Cerrado</option>
-                </select>
+                <div class="filter-select-box">
+                    <select id="filterType" class="form-control filter-select" onchange="applyFilter()">
+                        <option value="">Selecciona del filtro</option>
+                        <option value="ascendente">Fecha Ascendente</option>
+                        <option value="descendente">Fecha Descendente</option>
+                        <option value="Materiales Peligrosos">Materiales Peligrosos</option>
+                        <option value="Accidente Vehicular">Accidente Vehicular</option>
+                        <option value="Emergencia Médica">Emergencia Médica</option>
+                        <option value="Incendio">Incendio</option>
+                        <option value="Atendiendo">Estado: Atendiendo</option>
+                        <option value="Cerrado">Estado: Cerrado</option>
+                    </select>
+                </div>
             </div>
 
 
-            <!-- form handling -->
-            <form action="/" method="POST">
-                <table class="table">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Fecha y Hora</th>
-                            <th>Email</th>
-                            <th>Tipo</th>
-                            <th>Estado</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody id="incidentTable">
-                        <%- include('include/_show') %>
-                    </tbody>
-                </table>
-            </form>
+            <!-- Table of Incidents -->
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Fecha y Hora</th>
+                        <th>Dirección</th>
+                        <th>Tipo</th>
+                        <th>Estado</th>
+                        <th>Ubicación</th>
+                        <th>Compartir<br>a entidad</th>
+                        <th>Compartir<br>a contacto</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="incidentTable">
+                    <%- include('include/_show') %>
+                </tbody>
+            </table>
+        </div>
         </div>
     </main>
     <!-- /Main Site -->
 
     <!-- include footer -->
     <%- include('include/_footer') %>
+
 
         <!-- JavaScript para el filtro de búsqueda y filtro por tipo/estado/fecha -->
         <script>

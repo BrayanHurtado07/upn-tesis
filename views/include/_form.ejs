@@ -1,5 +1,7 @@
 <!-- form handling -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 <!-- Formulario mejorado -->
 <form action="/api/users" method="POST" id="add_user" class="form-layout">
@@ -7,13 +9,13 @@
         <!-- Nombre -->
         <div class="form-group">
             <label for="name" class="text-light">Nombre</label>
-            <input type="text" name="name" class="form-control full-width" placeholder="Mark Stoenis">
+            <input type="text" name="name" class="form-control full-width" autofocus>
         </div>
 
         <!-- Email -->
         <div class="form-group">
-            <label for="email" class="text-light">Email</label>
-            <input type="text" name="email" class="form-control full-width" placeholder="example@gmail.com">
+            <label for="email" class="text-light">Dirección</label>
+            <input type="text" name="email" class="form-control full-width">
         </div>
 
         <!-- Categoría principal -->
@@ -52,6 +54,13 @@
             </div>
         </div>
 
+        <!-- Mapa de Leaflet -->
+        <div id="map" style="height: 400px; margin-bottom: 20px;"></div>
+
+        <!-- Campos ocultos para guardar la latitud y longitud -->
+        <input type="hidden" id="latitude" name="latitude">
+        <input type="hidden" id="longitude" name="longitude">
+
         <!-- Botón de envío -->
         <div class="form-group">
             <button type="submit" class="btn text-dark update full-width">Guardar</button>
@@ -83,6 +92,21 @@ $(document).ready(function() {
         }
     });
 
+    // Inicializar el mapa con Leaflet
+    var map = L.map('map').setView([-12.046374, -77.0427934], 13); // Lima, Perú
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    var marker = L.marker([-12.046374, -77.0427934], {draggable: true}).addTo(map);
+
+    marker.on('dragend', function(e) {
+        var position = marker.getLatLng();
+        $('#latitude').val(position.lat);
+        $('#longitude').val(position.lng);
+    });
+
     // Concatenar los valores al enviar el formulario
     $('#add_user').on('submit', function(event) {
         event.preventDefault(); // Detener el envío del formulario temporalmente
@@ -93,18 +117,15 @@ $(document).ready(function() {
 
         if (mainCategory && subCategory) {
             if (Array.isArray(subCategory)) {
-                // Si hay varias subcategorías seleccionadas
                 incident = mainCategory + '/' + subCategory.join(', ');
             } else {
-                // Si solo hay una subcategoría seleccionada
                 incident = mainCategory + '/' + subCategory;
             }
         }
 
-        // Asignar el valor concatenado al campo oculto
         $('#incident').val(incident);
 
-        // Ahora se puede enviar el formulario
+        // Enviar el formulario
         this.submit();
     });
 });

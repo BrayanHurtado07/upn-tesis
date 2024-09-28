@@ -7,12 +7,15 @@ exports.create = (req, res) => {
         return;
     }
 
+    // new user, incluyendo latitud y longitud
     const user = new Userdb({
         name: req.body.name,
         email: req.body.email,
         gender: req.body.gender,
         status: req.body.status,
-        incident: req.body.incident
+        incident: req.body.incident,
+        latitude: req.body.latitude, // Agregar latitud
+        longitude: req.body.longitude // Agregar longitud
     });
 
     user
@@ -87,8 +90,6 @@ exports.find = (req, res) => {
             });
     }
 };
-
-
 
 // Update a new identified user by user id
 exports.update = (req, res) => {
