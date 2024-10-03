@@ -4,6 +4,7 @@ var Clientdb = require('../model/model2');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
+
 exports.register = async (req, res) => {
     try {
         const { name, email, password } = req.body;
@@ -174,5 +175,48 @@ exports.delete = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({ message: "Could not delete user with id=" + id });
+        });
+};
+
+const fs = require('fs');
+const XLSX = require('xlsx');
+
+exports.exportIncidents = (req, res) => {
+    Userdb.find()
+        .then(incidents => {
+            if (incidents.length === 0) {
+                return res.status(404).send({ message: "No hay incidentes para exportar" });
+            }
+
+            // Crear la carpeta 'exports' si no existe
+            if (!fs.existsSync('./exports')) {
+                fs.mkdirSync('./exports');
+            }
+
+            // Mapear los datos a un formato adecuado para Excel
+            const incidentsFormatted = incidents.map(incident => ({
+                Nombre: incident.name,
+                Correo: incident.email,
+                // Género: incident.gender || 'N/A', // Añadir un valor por defecto
+                Estado: incident.status || 'N/A',
+                Incidente: incident.incident || 'N/A',
+                Latitud: incident.latitude,
+                Longitud: incident.longitude,
+                'Fecha de creación': new Date(incident.createdAt).toLocaleString('es-PE', { timeZone: 'America/Lima' }) // Formato de fecha en hora de Lima
+            }));
+
+            const workbook = XLSX.utils.book_new();
+            const worksheet = XLSX.utils.json_to_sheet(incidentsFormatted);
+            XLSX.utils.book_append_sheet(workbook, worksheet, 'Incidentes');
+
+            const filePath = './exports/incidentes.xlsx';
+            XLSX.writeFile(workbook, filePath);
+            res.download(filePath);
+        })
+        .catch(err => {
+            console.error("Error al obtener los incidentes:", err);
+            res.status(500).send({
+                message: "Error al exportar los incidentes."
+            });
         });
 };

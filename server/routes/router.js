@@ -27,4 +27,16 @@ route.get('/api/users', controller.find);
 route.put('/api/users/:id', controller.update);
 route.delete('/api/users/:id', controller.delete);
 
+// Ruta para cerrar sesión
+route.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return res.redirect('/');
+        }
+        res.clearCookie('connect.sid'); // Borra la cookie de sesión
+        res.redirect('/login'); // Redirigir al login después de cerrar sesión
+    });
+});
+route.get('/export-incidents', controller.exportIncidents);
+
 module.exports = route;

@@ -20,8 +20,9 @@
                 <li><a href="/" class="active">Home</a></li>
                 <li><a href="/login">Login</a></li>
                 <li><a href="/add-user"">Registro</a></li>
-                <li><a href=" #">Reporte</a></li>
-                <li><a href="#">Cerrar Sesión</a></li>
+                <li><a href="/export-incidents">Reporte</a></li>
+                <li><a href="/logout">Cerrar Sesión</a></li>
+
             </ul>
         </div>
         <div class="content-area">
@@ -55,11 +56,14 @@
                 </div>
             </div>
             <br>
-            <div class="box-nav d-flex justify-between button-container2">
-                <a href="/add-user" class="border-shadow-buttom">
-                    <span class="text-gradient-buttom">AGREGAR INCIDENTE <i class="fas fa-user"></i></span>
-                </a>
-            </div>
+            <% if (user) { %>
+                <div class="box-nav d-flex justify-between button-container2">
+                    <a href="/add-user" class="border-shadow-buttom">
+                        <span class="text-gradient-buttom">AGREGAR INCIDENTE <i class="fas fa-user"></i></span>
+                    </a>
+                </div>
+            <% } %>
+            
             <!-- Filter Dropdown -->
             <div class="form-group filter-box">
                 <div class="box-nav d-flex justify-between">
