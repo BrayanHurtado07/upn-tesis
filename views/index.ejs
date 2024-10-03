@@ -8,17 +8,20 @@
             <!-- Profile Info and Navigation -->
             <div class="profile-info">
                 <img src="/path/to/image" alt="Profile Image" class="profile-image">
-                <h4>Karthi Madesh</h4>
-                <p class="text-type">Admin</p>
+                <h4>
+                    <%= user ? user.name : 'Sin logear' %>
+                </h4>
+                <p class="text-type">
+                    <%= user ? user.email : 'Sin logear' %>
+                </p>
+
             </div>
             <ul class="menu">
-                <li><a href="#" class="active">Home</a></li>
-                <li><a href="#">Course</a></li>
-                <li><a href="#"">Students</a></li>
-                <li><a href="#">Payment</a></li>
-                <li><a href="#">Report</a></li>
-                <li><a href="#">Settings</a></li>
-                <li><a href="#">Logout</a></li>
+                <li><a href="/" class="active">Home</a></li>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/add-user"">Registro</a></li>
+                <li><a href=" #">Reporte</a></li>
+                <li><a href="#">Cerrar Sesión</a></li>
             </ul>
         </div>
         <div class="content-area">

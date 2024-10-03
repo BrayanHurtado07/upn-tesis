@@ -1,23 +1,57 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In - CRUD Operations</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Login</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="body-login">
+
     <div class="login-container">
-        <div class="login-form">
-            <h2>CRUD OPERATIONS</h2>
-            <h3>SIGN IN</h3>
-            <form action="/submit-your-login-form" method="POST">
-                <input type="email" id="email" name="email" placeholder="Enter your email">
-                <input type="password" id="password" name="password" placeholder="Enter your password">
-                <button type="submit">SIGN IN</button>
-                <p>Forgot your password? <a href="/reset-password">Reset Password</a></p>
-            </form>
-        </div>
+        <h1>LOGIN INCIDENTES LIMA</h1>
+        <p>Ingresa los credenciales para acceder a tu cuenta</p>
+
+        <form id="login_form" action="/api/login" method="POST">
+            <input type="email" name="email" placeholder="Ingresa tu correo" required>
+            <input type="password" name="password" placeholder="Ingresa tu contraseña" required>
+            <button type="submit">INICIAR SESIÓN</button>
+        </form>
+        
+
+        <a href="/register">¿No tienes una cuenta? <strong>Regístrate aquí</strong></a>
     </div>
+
 </body>
 </html>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#login_form').on('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            var email = $('input[name="email"]').val();
+            var password = $('input[name="password"]').val();
+
+            $.ajax({
+                url: '/api/login',
+                method: 'POST',
+                data: {
+                    email: email,
+                    password: password
+                },
+                success: function(response) {
+                    if (response.success) {
+                        // Redirigir al usuario al Home si el login es exitoso
+                        window.location.href = "/";
+                    } else {
+                        alert("Credenciales inválidas.");
+                    }
+                },
+                error: function(err) {
+                    alert("Error al intentar iniciar sesión. Inténtelo nuevamente.");
+                }
+            });
+        });
+    });
+</script>

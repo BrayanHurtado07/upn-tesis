@@ -5,15 +5,31 @@
 
   <!-- Main Site -->
   <main id="site-main">
-    <div class="container">
+    <div class="sidebar">
+        <!-- Profile Info and Navigation -->
+        <div class="profile-info">
+            <img src="/path/to/image" alt="Profile Image" class="profile-image">
+            <h4>Karthi Madesh</h4>
+            <p class="text-type">Admin</p>
+        </div>
+        <ul class="menu">
+            <li><a href="/">Home</a></li>
+            <li><a href="/login">Login</a></li>
+            <li><a href="/add-user" class="active"">Agregar Incidente</a></li>
+            <li><a href="#">Reporte</a></li>
+            <li><a href="#">Cerrar Sesión</a></li>
+        </ul>
+    </div>
+    <div class="content-area">
         <div class="box-nav d-flex justify-between">
            <div class="filter">
                <a href="/"><i class="fas fa-angle-double-left"></i> All Users</a>
            </div>
         </div>
         <div class="form-title text-center">
-            <h2 class="--dark">Nuevo Incidente</h2>
+            <h2 class="--dark">AGREGAR NUEVO INCIDENTE</h2>
             <span class="--dark">Agrega el incidente que quieras reportar</span>
+            <br></br>
         </div>
 
         <!-- add user form -->

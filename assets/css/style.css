@@ -625,3 +625,161 @@ button.full-width {
 button.full-width:hover {
     background-color: #45a049;
 }
+
+/* LOGIN */ /* 
+
+
+/* Fondo con degradado */
+.body-login {
+    background: linear-gradient(90deg, #FFB82A, #FFD446);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+}
+
+/* Contenedor del formulario de login */
+.login-container {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    padding: 40px;
+    text-align: center;
+}
+
+/* Estilo para el título */
+.login-container h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1D1D1D;
+    margin-bottom: 10px;
+}
+
+.login-container p {
+    font-size: 14px;
+    color: #757575;
+    margin-bottom: 30px;
+}
+
+/* Estilos para los campos de texto */
+.login-container input[type="email"],
+.login-container input[type="password"] {
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 1px solid #E0E0E0;
+    font-size: 14px;
+}
+
+/* Botón de inicio de sesión */
+.login-container button {
+    width: 100%;
+    padding: 15px;
+    background-color: #FFB82A;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login-container button:hover {
+    background-color: #FFA000;
+}
+
+/* Enlaces de "Forgot Password" */
+.login-container a {
+    font-size: 14px;
+    color: #FFB82A;
+    text-decoration: none;
+    display: block;
+    margin-top: 20px;
+}
+
+.login-container a:hover {
+    text-decoration: underline;
+}
+
+
+.body-register {
+    background: linear-gradient(90deg, #FFB82A, #FFD446);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+}
+
+.register-container {
+    
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    padding: 40px;
+    text-align: center;
+}
+
+/* Estilo para el título */
+.register-container h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1D1D1D;
+    margin-bottom: 10px;
+}
+
+.register-container p {
+    font-size: 14px;
+    color: #757575;
+    margin-bottom: 30px;
+}
+
+/* Estilos para los campos de texto */
+.register-container input[type="text"],
+.register-container input[type="email"],
+.register-container input[type="password"] {
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 1px solid #E0E0E0;
+    font-size: 14px;
+}
+
+/* Botón de inicio de sesión */
+.register-container button {
+    width: 100%;
+    padding: 15px;
+    background-color: #FFB82A;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.register-container button:hover {
+    background-color: #FFA000;
+}
+
+/* Enlaces de "Forgot Password" */
+.register-container a {
+    font-size: 14px;
+    color: #FFB82A;
+    text-decoration: none;
+    display: block;
+    margin-top: 20px;
+}
+
+.register-container a:hover {
+    text-decoration: underline;
+}

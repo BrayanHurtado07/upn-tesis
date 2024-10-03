@@ -1,33 +1,30 @@
 const express = require('express');
-const route = express.Router()
-
+const route = express.Router();
 const services = require('../services/render');
 const controller = require('../controller/controller');
 
-/**
- *  @description Root Route
- *  @method GET /
- */
+// Ruta principal
 route.get('/', services.homeRoutes);
 
-/**
- *  @description add users
- *  @method GET /add-user
- */
-route.get('/add-user', services.add_user)
+// Ruta para agregar usuario
+route.get('/add-user', services.add_user);
 
-/**
- *  @description for update user
- *  @method GET /update-user
- */
-route.get('/update-user', services.update_user)
+// Ruta para actualizar usuario
+route.get('/update-user', services.update_user);
+
+// Rutas para autenticación (registro y login)
+route.get('/login', services.login);              
+route.post('/login', services.process_login);    
+route.get('/register', services.register); 
+// route.post('/register', services.process_register); 
+route.post('/api/register', controller.register);
+route.post('/api/login', controller.login);
 
 
-// API
-route.post('/api/users', controller.create);
+// Rutas de la API para manejo de usuarios
+route.post('/api/users', controller.create); // Ruta para crear usuario (si es diferente)
 route.get('/api/users', controller.find);
 route.put('/api/users/:id', controller.update);
 route.delete('/api/users/:id', controller.delete);
 
-
-module.exports = route
+module.exports = route;

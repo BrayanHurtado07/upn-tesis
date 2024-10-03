@@ -1,4 +1,53 @@
 var Userdb = require('../model/model');
+var Clientdb = require('../model/model2');
+
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
+exports.register = async (req, res) => {
+    try {
+        const { name, email, password } = req.body;
+
+        const existingUser = await Clientdb.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ success: false, message: 'El correo ya está registrado.' });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+        const newUser = new Clientdb({ name, email, password: hashedPassword });
+        await newUser.save();
+
+        return res.status(201).json({ success: true, message: 'Usuario registrado exitosamente.' });
+    } catch (error) {
+        return res.status(500).json({ success: false, message: 'Error al intentar registrarse.' });
+    }
+};
+
+
+// const bcrypt = require('bcrypt');
+
+exports.login = (req, res) => {
+    const { email, password } = req.body;
+
+    Clientdb.findOne({ email }).then(user => {
+        if (!user) {
+            return res.json({ success: false, message: "Usuario no encontrado" });
+        }
+
+        // Verificar la contraseña encriptada
+        bcrypt.compare(password, user.password, (err, isMatch) => {
+            if (isMatch) {
+                req.session.user = user; // Almacenar el usuario en la sesión
+                return res.json({ success: true, message: "Inicio de sesión exitoso" });
+            } else {
+                return res.json({ success: false, message: "Contraseña incorrecta" });
+            }
+        });
+    }).catch(err => {
+        return res.status(500).json({ success: false, message: "Error del servidor" });
+    });
+};
 
 // create and save new user
 exports.create = (req, res) => {

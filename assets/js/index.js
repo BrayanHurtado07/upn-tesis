@@ -47,3 +47,55 @@ if(window.location.pathname == "/"){
 
     })
 }
+
+$("#register_user").submit(function(event) {
+    event.preventDefault();
+
+    var name = $("input[name='name']").val();
+    var email = $("input[name='email']").val();
+    var password = $("input[name='password']").val();
+
+    $.ajax({
+        url: '/register',
+        method: 'POST',
+        data: {
+            name: name,
+            email: email,
+            password: password
+        },
+        success: function(response) {
+            alert("Registro exitoso. Redirigiendo a la página de login.");
+            window.location.href = "/login";
+        },
+        error: function(err) {
+            alert("Error al intentar registrarse. Inténtelo nuevamente.");
+        }
+    });
+});
+
+$("#login_user").submit(function(event) {
+    event.preventDefault();
+
+    var email = $("input[name='email']").val();
+    var password = $("input[name='password']").val();
+
+    $.ajax({
+        url: '/login',
+        method: 'POST',
+        data: {
+            email: email,
+            password: password
+        },
+        success: function(response) {
+            if (response.success) {
+                alert("Login exitoso. Redirigiendo al dashboard.");
+                window.location.href = "/dashboard";  // Adjust this according to your project structure
+            } else {
+                alert(response.message); // Show any error message from the server
+            }
+        },
+        error: function(err) {
+            alert("Error al intentar iniciar sesión. Verifique sus credenciales.");
+        }
+    });
+});
